@@ -31,6 +31,24 @@ class VehicleList(APIView):
         vehicles = Vehicle.objects.all()
         serializer = RiderSerializer(vehicles, many=True)
         return Response(serializer.data)
+        
+class RideFilter(APIView):
+    def get(self, request):
+        queryset = Ride.objects.all()
+        query = self.request.query_params
+        
+        if query:
+            if 'hour' in query.keys():
+                queryset = queryset.filter(hour=query.get('hour'))
+            elif 'starting_point' in query.keys():
+                queryset = queryset.filter(starting_point=query.get('starting_point'))
+            elif 'destination' in query.keys():
+                queryset = queryset.filter(destination=query.get('destination'))
+            else :
+                queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_)
+
+        serializer = RideSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 class RideGuestList(APIView):
     def get(self, request):
