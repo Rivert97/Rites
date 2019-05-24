@@ -26,6 +26,11 @@ class RideList(APIView):
         serializer = RiderSerializer(rides, many=True)
         return Response(serializer.data)
 
+class VehicleList(APIView):
+    def get(self, request):
+        vehicles = Vehicle.objects.all()
+        serializer = RiderSerializer(vehicles, many=True)
+        return Response(serializer.data)
 class RideFilter(APIView):
     def get(self, request):
         queryset = Ride.objects.all()
@@ -43,13 +48,7 @@ class RideFilter(APIView):
 
         serializer = RideSerializer(queryset, many=True)
         return Response(serializer.data)
-
-class VehicleList(APIView):
-    def get(self, request):
-        vehicles = Vehicle.objects.all()
-        serializer = RiderSerializer(vehicles, many=True)
-        return Response(serializer.data)
-
+        
 class RideGuestList(APIView):
     def get(self, request):
         guests = RideGuest.objects.all()
