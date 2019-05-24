@@ -20,6 +20,7 @@ from rites import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', views.UserList.as_view()),
     path('riders/', views.RiderList.as_view()),
     path('noriders/', views.NoRiderList.as_view()),
     path('rides/', views.RideFilter.as_view()),
