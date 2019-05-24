@@ -22,8 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('riders/', views.RiderList.as_view()),
     path('noriders/', views.NoRiderList.as_view()),
-    path('rides/', views.RideList.as_view()),
+    path('rides/', views.RideFilter.as_view()),
     path('vehicles/', views.VehicleList.as_view()),
-    path('rideguests/', views.RideGuestList.as_view()),
+    path('rideguests/', views.RideGuestList.as_view()), 
     path('intermediatestops/', views.IntermediateStopList.as_view()),
 ]
