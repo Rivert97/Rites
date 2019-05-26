@@ -13,11 +13,17 @@ class NoRiderSerializer(serializers.ModelSerializer):
         model = NoRider
         fields = '__all__'
 
-class RideSerializer(serializers.ModelSerializer):
+class RideAllSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ride
         fields = '__all__'
+
+class RideFilterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Ride
+        fields = ('host','starting_point','destination','date','hour')
 
 class VehicleSerializer(serializers.ModelSerializer):
 

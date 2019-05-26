@@ -41,7 +41,9 @@ class RideFilter(APIView):
             else :
                 queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_)
 
-        serializer = RideSerializer(queryset, many=True)
+            serializer = RideFilterSerializer(queryset,many=True)
+        else:
+            serializer = RideAllSerializer(queryset, many=True)
         return Response(serializer.data)
 
 class RideGuestList(APIView):
@@ -59,5 +61,6 @@ class IntermediateStopList(APIView):
 class UserList(APIView):
     def get(self, request):
         users = User.objects.all()
-        serializer = UserSerializer(users, manay=True)
-        return Response(serializer)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
