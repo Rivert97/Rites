@@ -7,6 +7,7 @@ class User(models.Model):
     email=models.CharField(max_length=45)
     password=models.CharField(max_length=20)
 
+
 class Rider(models.Model):
     id_user = models.OneToOneField(
         User,
@@ -40,7 +41,6 @@ class Vehicle(models.Model):
     plates=models.CharField(max_length=20)
 
 
-
 class Ride(models.Model):
     id_ride = models.AutoField(primary_key = True)
     host = models.ForeignKey(Rider, on_delete = models.CASCADE)
@@ -53,10 +53,12 @@ class Ride(models.Model):
     cost = models.FloatField()
     vehicle=models.ForeignKey(Vehicle, on_delete=models.CASCADE)
 
+
 class IntermediateStop(models.Model):
     id_stop = models.AutoField(primary_key = True)
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
     place = models.CharField(max_length = 45)
+
 
 class RideGuest(models.Model):
     guest_id = models.AutoField(primary_key = True)

@@ -14,17 +14,77 @@ class RiderList(APIView):
         serializer = RiderSerializer(riders, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        rider = request.data.get('rider')
+        serializer = RiderSerializer(data=rider)
+        if serializer.is_valid(raise_exception=True):
+            rider_saved = serializer.save()
+        return Response({"success":"Rider '{}' created successfully".format(rider_saved.id_user)})
+
+    def put(self, request, pk):
+        saved_rider = get_object_or_404(Rider.objects.all(), pk=pk)
+        data = request.data.get('rider')
+        serializer = RiderSerializer(instance=saved_rider, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            rider_saved = serializer.save()
+        return Response({"success": "Rider '{}' updated successfully".format(rider_saved.id_user)})
+    
+    def delete(self, request, pk):
+        rider = get_object_or_404(Rider.objects.all(), pk=pk)
+        rider.delete()
+        return Response({"success": "Rider with id `{}` has been deleted.".format(pk)},status=204)
+
 class NoRiderList(APIView):
     def get(self, request):
         no_riders = NoRider.objects.all()
         serializer = NoRiderSerializer(no_riders, many=True)
         return Response(serializer.data)
+    
+    def post(self, request):
+        noRider = request.data.get('norider')
+        serializer = NoRiderSerializer(data=noRider)
+        if serializer.is_valid(raise_exception=True):
+            noRider_saved = serializer.save()
+        return Response({"success":"NoRider '{}' created successfully".format(noRider_saved.id_user)})
+
+    def put(self, request, pk):
+        saved_noRider = get_object_or_404(NoRider.objects.all(), pk=pk)
+        data = request.data.get('norider')
+        serializer = NoRiderSerializer(instance=saved_noRider, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            noRider_saved = serializer.save()
+        return Response({"success": "NoRider '{}' updated successfully".format(noRider_saved.id_user)})
+    
+    def delete(self, request, pk):
+        noRider = get_object_or_404(NoRider.objects.all(), pk=pk)
+        noRider.delete()
+        return Response({"success": "NoRider with id `{}` has been deleted.".format(pk)},status=204)
 
 class VehicleList(APIView):
     def get(self, request):
         vehicles = Vehicle.objects.all()
         serializer = VehicleSerializer(vehicles, many=True)
         return Response(serializer.data)
+
+    def post(self, request):
+        vehicle = request.data.get('vehicle')
+        serializer = VehicleSerializer(data=vehicle)
+        if serializer.is_valid(raise_exception=True):
+            vehicle_saved = serializer.save()
+        return Response({"success":"Vehicle '{}' created successfully".format(vehicle_saved.id_vehicle)})
+
+    def put(self, request, pk):
+        saved_vehicle = get_object_or_404(Vehicle.objects.all(), pk=pk)
+        data = request.data.get('vehicle')
+        serializer = VehicleSerializer(instance=saved_vehicle, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            vehicle_saved = serializer.save()
+        return Response({"success": "Vehicle '{}' updated successfully".format(vehicle_saved.id_vehicle)})
+    
+    def delete(self, request, pk):
+        vehicle = get_object_or_404(Vehicle.objects.all(), pk=pk)
+        vehicle.delete()
+        return Response({"success": "Vehicle with id `{}` has been deleted.".format(pk)},status=204)
         
 class RideFilter(APIView):
     def get(self, request):
@@ -44,7 +104,28 @@ class RideFilter(APIView):
             serializer = RideFilterSerializer(queryset,many=True)
         else:
             serializer = RideAllSerializer(queryset, many=True)
+            
         return Response(serializer.data)
+
+    def post(self, request):
+        ride = request.data.get('ride')
+        serializer = RideAllSerializer(data=ride)
+        if serializer.is_valid(raise_exception=True):
+            ride_saved = serializer.save()
+        return Response({"success":"Ride '{}' created successfully".format(ride_saved.id_ride)})
+
+    def put(self, request, pk):
+        saved_ride = get_object_or_404(Ride.objects.all(), pk=pk)
+        data = request.data.get('ride')
+        serializer = RideAllSerializer(instance=saved_ride, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            ride_saved = serializer.save()
+        return Response({"success": "Ride '{}' updated successfully".format(ride_saved.id_ride)})
+
+    def delete(self, request, pk):
+        ride = get_object_or_404(Ride.objects.all(), pk=pk)
+        ride.delete()
+        return Response({"success": "Ride with id `{}` has been deleted.".format(pk)},status=204)
 
 class RideGuestList(APIView):
     def get(self, request):
@@ -52,15 +133,76 @@ class RideGuestList(APIView):
         serializer = RideGuestSerializer(guests, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        guest = request.data.get('guest')
+        serializer = RideGuestSerializer(data=guest)
+        if serializer.is_valid(raise_exception=True):
+            guest_saved = serializer.save()
+        return Response({"success":"RideGuest '{}' created successfully".format(guest_saved.guest_id)})
+
+    def put(self, request, pk):
+        saved_guest = get_object_or_404(RideGuest.objects.all(), pk=pk)
+        data = request.data.get('guest')
+        serializer = RideGuestSerializer(instance=saved_guest, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            guest_saved = serializer.save()
+        return Response({"success": "RideGuest '{}' updated successfully".format(guest_saved.guest_id)})
+
+    def delete(self, request, pk):
+        guest = get_object_or_404(RideGuest.objects.all(), pk=pk)
+        guest.delete()
+        return Response({"success": "RideGuest with id `{}` has been deleted.".format(pk)},status=204)
+
 class IntermediateStopList(APIView):
     def get(self, request):
         stops = IntermediateStop.objects.all()
         serializer = IntermediateStopSerializer(stops, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        stop = request.data.get('stop')
+        serializer = IntermediateStopSerializer(data=stop)
+        if serializer.is_valid(raise_exception=True):
+            stop_saved = serializer.save()
+        return Response({"success":"Stop '{}' created successfully".format(stop_saved.id_stop)})
+
+    def put(self, request, pk):
+        saved_stop = get_object_or_404(IntermediateStop.objects.all(), pk=pk)
+        data = request.data.get('stop')
+        serializer = IntermediateStopSerializer(instance=saved_stop, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            stop_saved = serializer.save()
+        return Response({"success": "Stop '{}' updated successfully".format(stop_saved.id_stop)})
+    
+    def delete(self, request, pk):
+        stop = get_object_or_404(IntermediateStop.objects.all(), pk=pk)
+        stop.delete()
+        return Response({"success": "Article with id `{}` has been deleted.".format(pk)},status=204)
+
+
 class UserList(APIView):
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
+
+    def post(self, request):
+        user = request.data.get('user')
+        serializer = UserSerializer(data=user)
+        if serializer.is_valid(raise_exception=True):
+            user_saved = serializer.save()
+        return Response({"success":"User '{}' created successfully".format(user_saved.id_user)})
+
+    def put(self, request, pk):
+        saved_user = get_object_or_404(User.objects.all(), pk=pk)
+        data = request.data.get('user')
+        serializer = UserSerializer(instance=saved_user, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            user_saved = serializer.save()
+        return Response({"success": "User '{}' updated successfully".format(user_saved.id_user)})
+
+    def delete(self, request, pk):
+        user = get_object_or_404(User.objects.all(), pk=pk)
+        user.delete()
+        return Response({"success": "User with id `{}` has been deleted.".format(pk)},status=204)
 

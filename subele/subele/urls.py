@@ -21,10 +21,17 @@ from rites import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', views.UserList.as_view()),
+    path('users/<int:pk>', views.UserList.as_view()),
     path('riders/', views.RiderList.as_view()),
+    path('riders/<int:pk>', views.RiderList.as_view()),
     path('noriders/', views.NoRiderList.as_view()),
+    path('noriders/<int:pk>', views.NoRiderList.as_view()),
     path('rides/', views.RideFilter.as_view()),
+    path('rides/<int:pk>', views.RideFilter.as_view()),
     path('vehicles/', views.VehicleList.as_view()),
+    path('vehicles/<int:pk>', views.VehicleList.as_view()),
     path('rideguests/', views.RideGuestList.as_view()), 
+    path('rideguests/<int:pk>', views.RideGuestList.as_view()),
     path('intermediatestops/', views.IntermediateStopList.as_view()),
+    path('intermediatestops/<int:pk>', views.IntermediateStopList.as_view()),
 ]
