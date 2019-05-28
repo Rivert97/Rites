@@ -17,8 +17,8 @@ class Rider(models.Model):
     )
 
     score=models.IntegerField(default=0)
-    rides_number=models.IntegerField()
-    scored=models.IntegerField()
+    rides_number=models.IntegerField(default=0)
+    scored=models.IntegerField(default=0)
 
 
 class NoRider(models.Model):
@@ -29,8 +29,8 @@ class NoRider(models.Model):
         primary_key=True,
     )
     score=models.IntegerField(default=0)
-    rides_number=models.IntegerField()
-    scored=models.IntegerField()
+    rides_number=models.IntegerField(default=0)
+    scored=models.IntegerField(default=0)
 
 
 class Vehicle(models.Model):
@@ -64,3 +64,6 @@ class RideGuest(models.Model):
     guest_id = models.AutoField(primary_key = True)
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
     user = models.ForeignKey(NoRider, on_delete = models.CASCADE)
+
+    class Meta:
+        unique_together = (('ride','user',))
