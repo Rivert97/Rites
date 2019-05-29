@@ -6,8 +6,12 @@ class User(models.Model):
     last_name=models.CharField(max_length=45)
     email=models.CharField(max_length=45)
     password=models.CharField(max_length=20)
+    is_rider=models.BooleanField()
+    rider_score=models.FloatField(default=0.0)
+    rides_number=models.IntegerField(default=0)
+    scored=models.IntegerField(default=0)
 
-
+"""
 class Rider(models.Model):
     id_user = models.OneToOneField(
         User,
@@ -31,11 +35,11 @@ class NoRider(models.Model):
     score=models.IntegerField(default=0)
     rides_number=models.IntegerField()
     scored=models.IntegerField()
-
+    """
 
 class Vehicle(models.Model):
     id_vehicle = models.AutoField(primary_key = True)
-    user = models.ForeignKey(Rider, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
     model = models.CharField(max_length = 45)
     color = models.CharField(max_length = 45)
     plates=models.CharField(max_length=20)
@@ -43,7 +47,7 @@ class Vehicle(models.Model):
 
 class Ride(models.Model):
     id_ride = models.AutoField(primary_key = True)
-    host = models.ForeignKey(Rider, on_delete = models.CASCADE)
+    host = models.ForeignKey(User, on_delete = models.CASCADE)
     starting_point = models.CharField(max_length = 45)
     destination = models.CharField(max_length = 45)
     date = models.DateField()
@@ -52,6 +56,7 @@ class Ride(models.Model):
     n_stops = models.IntegerField()
     cost = models.FloatField()
     vehicle=models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    is_active=models.BooleanField()
 
 
 class IntermediateStop(models.Model):
@@ -63,4 +68,4 @@ class IntermediateStop(models.Model):
 class RideGuest(models.Model):
     guest_id = models.AutoField(primary_key = True)
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
-    user = models.ForeignKey(NoRider, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
