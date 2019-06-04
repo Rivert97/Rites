@@ -33,17 +33,9 @@ class NoRider(models.Model):
         primary_key=True,
     )
     score=models.IntegerField(default=0)
-<<<<<<< HEAD
     rides_number=models.IntegerField(default=0)
     scored=models.IntegerField(default=0)
     
-    
-=======
-    rides_number=models.IntegerField()
-    scored=models.IntegerField()
-    """
-
->>>>>>> b34ea0fcb6ec769f1331b22e937d4e47cebe9e55
 class Vehicle(models.Model):
     id_vehicle = models.AutoField(primary_key = True)
     user = models.ForeignKey(Rider, on_delete = models.CASCADE)
@@ -75,12 +67,8 @@ class IntermediateStop(models.Model):
 class RideGuest(models.Model):
     guest_id = models.AutoField(primary_key = True)
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
-<<<<<<< HEAD
 
     user = models.ForeignKey(NoRider, on_delete = models.CASCADE)
 
     class Meta:
         unique_together = (('ride','user',))
-=======
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
->>>>>>> b34ea0fcb6ec769f1331b22e937d4e47cebe9e55
