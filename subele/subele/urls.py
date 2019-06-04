@@ -23,8 +23,13 @@ urlpatterns = [
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>', views.UserList.as_view()),
     path('ridesfilter/', views.RideFilter.as_view()),
+<<<<<<< HEAD
     path('rides/<int:pk>', views.RideList.as_view()),
      path('rides/', views.RideList.as_view()),
+=======
+    path('rides/', views.RideList.as_view()),
+    path('rides/<int:pk>', views.RideList.as_view()),
+>>>>>>> b34ea0fcb6ec769f1331b22e937d4e47cebe9e55
     path('vehicles/', views.VehicleList.as_view()),
     path('vehicles/<int:pk>', views.VehicleList.as_view()),
     path('rideguests/', views.RideGuestList.as_view()), 
