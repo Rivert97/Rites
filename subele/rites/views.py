@@ -78,6 +78,11 @@ class VehicleList(APIView):
         if 'id_vehicle' in query.keys():
             saved_vehicle = get_object_or_404(Vehicle.objects.all(), pk=query.get('id_vehicle'))
             serializer = VehicleSerializer(saved_vehicle)
+        
+        elif ("user")  in query.keys():
+            query_set=Vehicle.objects.all()
+            query_set=query_set.filter( user=query.get("user"))
+            serializer=VehicleSerializer(query_set, many=True)
         else:
             vehicles = Vehicle.objects.all()
             serializer = VehicleSerializer(vehicles, many=True)
