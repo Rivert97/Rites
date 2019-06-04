@@ -76,8 +76,8 @@ class VehicleList(APIView):
     def get(self, request):
         query = self.request.query_params
         if 'id_vehicle' in query.keys():
-            saved_vehicle = get_object_or_404(Vehicle.objects.all(), pk=query.get('id_vehicle'))
-            serializer = VehicleSerializer(saved_vehicle)
+            vehicle = Vehicle.objects.all().filter(id_vehicle=query.get('id_vehicle'))
+            serializer = VehicleSerializer(vehicle,many=True)
         else:
             vehicles = Vehicle.objects.all()
             serializer = VehicleSerializer(vehicles, many=True)
@@ -129,8 +129,8 @@ class RideList(APIView):
     def get(self, request):
         query = self.request.query_params
         if 'id_ride' in query.keys():
-            saved_ride = get_object_or_404(Ride.objects.all(), pk=query.get('id_ride'))
-            serializer = RideSerializer(saved_ride)
+            rides = Ride.objects.all().filter(id_ride=query.get('id_ride'), is_active=True)
+            serializer = RideSerializer(rides,many=True)
         else:
             rides = Ride.objects.all()
             serializer = RideSerializer(rides, many=True)
