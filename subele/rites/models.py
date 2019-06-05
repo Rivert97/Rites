@@ -10,33 +10,7 @@ class User(models.Model):
     rider_score=models.FloatField(default=0.0)
     rides_number=models.IntegerField(default=0)
     scored=models.IntegerField(default=0)
-
-"""
-class Rider(models.Model):
-    id_user = models.OneToOneField(
-        User,
-        unique=True,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-
-    score=models.IntegerField(default=0)
-    rides_number=models.IntegerField(default=0)
-    scored=models.IntegerField(default=0)
-
-
-class NoRider(models.Model):
-    id_user = models.OneToOneField(
-        User,
-        unique=True,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    score=models.IntegerField(default=0)
-    rides_number=models.IntegerField()
-    scored=models.IntegerField()
-    """
-
+    
 class Vehicle(models.Model):
     id_vehicle = models.AutoField(primary_key = True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -56,7 +30,7 @@ class Ride(models.Model):
     n_stops = models.IntegerField()
     cost = models.FloatField()
     vehicle=models.ForeignKey(Vehicle, on_delete=models.CASCADE)
-    is_active=models.BooleanField()
+    is_active = models.BooleanField()
 
 
 class IntermediateStop(models.Model):
@@ -68,4 +42,5 @@ class IntermediateStop(models.Model):
 class RideGuest(models.Model):
     guest_id = models.AutoField(primary_key = True)
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
+
     user = models.ForeignKey(User, on_delete = models.CASCADE)

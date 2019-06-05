@@ -42,7 +42,7 @@ class RideFilterSerializer(serializers.ModelSerializer):
     host = UserNameSerializer(read_only=True)
     class Meta:
         model = Ride
-        fields = ('host','starting_point','destination','date','hour')
+        fields = ('host','id_ride','starting_point','destination','date','hour','cost')
 
 class VehicleSerializer(serializers.ModelSerializer):
 
