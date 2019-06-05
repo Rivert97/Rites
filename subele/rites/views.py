@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from . models import *
 from . serializers import *
+from datetime import datetime, timedelta
 """
 class RiderList(APIView):
     def get(self, request):
@@ -108,9 +109,12 @@ class VehicleList(APIView):
         
 class RideFilter(APIView):
     def get(self, request):
-        queryset = Ride.objects.all()
         query = self.request.query_params
-        
+
+        queryset = Ride.objects.all()
+        day_now = datetime.now().date()
+        day_next = day_now + timedelta(days=1)
+        time_now = datetime.now().time()
         if query:
             if 'hour' in query.keys():
                 queryset = queryset.filter(hour=query.get('hour'), is_active=True)
@@ -123,9 +127,13 @@ class RideFilter(APIView):
             else :
                 queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_id, is_active=True)
 
+            queryset = queryset.filter(date__range=(day_now,day_next))
+            queryset = queryset.exclude(date=day_now,hour__range=("00:00",time_now))
             serializer = RideFilterSerializer(queryset,many=True)
         else:
             queryset = queryset.filter(is_active=True)
+            queryset = queryset.filter(date__range=(day_now,day_next))
+            queryset = queryset.exclude(date=day_now,hour__range=("00:00",time_now))
             serializer = RideFilterSerializer(queryset, many=True)
             
         return Response(serializer.data)
