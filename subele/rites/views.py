@@ -120,6 +120,8 @@ class RideFilter(APIView):
                 queryset = queryset.filter(starting_point=query.get('starting_point'), is_active=True)
             elif 'destination' in query.keys():
                 queryset = queryset.filter(destination=query.get('destination'), is_active=True)
+            elif 'host' in query.keys():
+                queryset = queryset.filter(host=query.get('host'))
             else :
                 queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_id, is_active=True)
 
