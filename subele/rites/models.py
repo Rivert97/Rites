@@ -44,4 +44,5 @@ class RideGuest(models.Model):
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     status = models.IntegerField(default=0)
+    evaluated = models.BooleanField(default=False)
     

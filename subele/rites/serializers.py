@@ -56,6 +56,12 @@ class RideGuestSerializer(serializers.ModelSerializer):
         model = RideGuest
         fields = '__all__'
 
+class RideGuestActiveSerializer(serializers.ModelSerializer):
+    ride = RideFilterSerializer(read_only=True)
+    class Meta:
+        model = RideGuest
+        fields = ('guest_id','ride','status','evaluated')
+
 class IntermediateStopSerializer(serializers.ModelSerializer):
 
     class Meta:

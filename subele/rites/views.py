@@ -183,10 +183,15 @@ class RideGuestList(APIView):
                 saved_guests = RideGuest.objects.all().filter(ride=query.get('id_ride'), status=1)
             #serializer = RideGuestSerializer(saved_guests, many=True)
             serializer = SolicitudSerializer(saved_guests, many=True)
+        elif 'user_id' in query.keys():
+            saved_rides = RideGuest.objects.all().filter(user=query.get('user_id')).order_by('-guest_id')
+            serializer = RideGuestActiveSerializer(saved_rides,many=True)
         else:
             guests = RideGuest.objects.all()
             serializer = RideGuestSerializer(guests, many=True)
         return Response(serializer.data)
+
+    
 
     def post(self, request):
         guest = request.data
