@@ -117,21 +117,23 @@ class RideFilter(APIView):
         time_now = datetime.now().time()
         if query:
             if 'hour' in query.keys():
-                queryset = queryset.filter(hour=query.get('hour'), is_active=True)
+                queryset = queryset.filter(hour=query.get('hour'), is_active=True).exclude(room=0)
             elif 'starting_point' in query.keys():
-                queryset = queryset.filter(starting_point=query.get('starting_point'), is_active=True)
+                queryset = queryset.filter(starting_point=query.get('starting_point'), is_active=True).exclude(room=0)
             elif 'destination' in query.keys():
-                queryset = queryset.filter(destination=query.get('destination'), is_active=True)
+                queryset = queryset.filter(destination=query.get('destination'), is_active=True).exclude(room=0)
             elif 'host' in query.keys():
-                queryset = queryset.filter(host=query.get('host'))
+                queryset = queryset.filter(host=query.get('host')).exclude(room=0)
+            elif 'id_ride' in query.keys():
+                queryset = queryset.filter(id_ride=query.get('id_ride'), is_active=True).exclude(room=0)
             else :
-                queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_id, is_active=True)
+                queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_id, is_active=True).exclude(room=0)
 
             queryset = queryset.filter(date__range=(day_now,day_next))
             queryset = queryset.exclude(date=day_now,hour__range=("00:00",time_now))
             serializer = RideFilterSerializer(queryset,many=True)
         else:
-            queryset = queryset.filter(is_active=True)
+            queryset = queryset.filter(is_active=True).exclude(room=0)
             queryset = queryset.filter(date__range=(day_now,day_next))
             queryset = queryset.exclude(date=day_now,hour__range=("00:00",time_now))
             serializer = RideFilterSerializer(queryset, many=True)
@@ -142,7 +144,7 @@ class RideList(APIView):
     def get(self, request):
         query = self.request.query_params
         if 'id_ride' in query.keys():
-            rides = Ride.objects.all().filter(id_ride=query.get('id_ride'), is_active=True)
+            rides = Ride.objects.all().filter(id_ride=query.get('id_ride'))
             serializer = RideSerializer(rides,many=True)
         else:
             rides = Ride.objects.all()
