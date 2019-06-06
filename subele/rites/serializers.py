@@ -62,3 +62,8 @@ class IntermediateStopSerializer(serializers.ModelSerializer):
         model = IntermediateStop
         fields = '__all__'
 
+class SolicitudSerializer(serializers.ModelSerializer):
+    user = UserNameSerializer(read_only=True)
+    class Meta:
+        model = RideGuest
+        fields = ('guest_id', 'ride', 'user', 'status')

@@ -166,8 +166,13 @@ class RideGuestList(APIView):
     def get(self, request):
         query = self.request.query_params
         if 'id_ride' in query.keys():
-            saved_guests = RideGuest.objects.all().filter(ride=query.get('id_ride'))
-            serializer = RideGuestSerializer(saved_guests, many=True)
+            ride = Ride.objects.get(pk=query.get('id_ride'))
+            if ride.room > 0:
+                saved_guests = RideGuest.objects.all().filter(ride=query.get('id_ride')).exclude(status=2).order_by('-status')
+            else:
+                saved_guests = RideGuest.objects.all().filter(ride=query.get('id_ride'), status=1)
+            #serializer = RideGuestSerializer(saved_guests, many=True)
+            serializer = SolicitudSerializer(saved_guests, many=True)
         else:
             guests = RideGuest.objects.all()
             serializer = RideGuestSerializer(guests, many=True)
@@ -186,6 +191,15 @@ class RideGuestList(APIView):
         serializer = RideGuestSerializer(instance=saved_guest, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):
             guest_saved = serializer.save()
+            if guest_saved.status == 1:
+                ride = Ride.objects.get(pk=guest_saved.ride.id_ride)
+                ride.room -= 1
+                ride.save()
+                if ride.room == 0:
+                    pendant_guests = RideGuest.objects.all().filter(ride=ride.id_ride, status=0)
+                    for g in pendant_guests:
+                        g.status = 2
+                        g.save()
         return Response(serializer.data)
 
     def delete(self, request, pk):
