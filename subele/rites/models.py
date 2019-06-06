@@ -43,4 +43,5 @@ class RideGuest(models.Model):
     guest_id = models.AutoField(primary_key = True)
     ride = models.ForeignKey(Ride, on_delete = models.CASCADE)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    status = models.IntegerField(default=0)#0-> Pendiente, 1->Aceptado, 2->Rechazado
+    status = models.IntegerField(default=0)
+    
