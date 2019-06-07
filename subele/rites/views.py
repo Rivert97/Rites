@@ -259,8 +259,9 @@ class UserList(APIView):
     def get(self, request):
         query = self.request.query_params
         if 'id_user' in query.keys():
-            saved_user = get_object_or_404(User.objects.all(), pk=query.get('id_user'))
-            serializer = UserSerializer(saved_user)
+            query_set=User.objects.all()
+            query_set=query_set.filter( id_user=query.get("id_user"))
+            serializer=UserSerializer(query_set, many=True)
         elif ("email") and ("password") in query.keys():
             query_set=User.objects.all()
             query_set=query_set.filter( email=query.get("email"), password=query.get("password"))
