@@ -127,7 +127,9 @@ class RideFilter(APIView):
             elif 'id_ride' in query.keys():
                 queryset = queryset.filter(id_ride=query.get('id_ride'))
             else :
-                queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_id, is_active=True).exclude(room=0)
+                stops = IntermediateStop.objects.all().filter(place=query.get('stop'))
+                s_list = [s.ride.id_ride for s in stops]
+                queryset = queryset.filter(id_ride__in = s_list)
 
             if not 'host' in query.keys():
                 queryset = queryset.filter(date__range=(day_now,day_next))
