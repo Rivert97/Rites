@@ -123,7 +123,7 @@ class RideFilter(APIView):
             elif 'destination' in query.keys():
                 queryset = queryset.filter(destination=query.get('destination'), is_active=True).exclude(room=0)
             elif 'host' in query.keys():
-                queryset = queryset.filter(host=query.get('host'))
+                queryset = queryset.filter(host=query.get('host')).order_by('-is_active')
             elif 'id_ride' in query.keys():
                 queryset = queryset.filter(id_ride=query.get('id_ride'))
             else :
