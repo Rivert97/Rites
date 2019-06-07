@@ -123,14 +123,15 @@ class RideFilter(APIView):
             elif 'destination' in query.keys():
                 queryset = queryset.filter(destination=query.get('destination'), is_active=True).exclude(room=0)
             elif 'host' in query.keys():
-                queryset = queryset.filter(host=query.get('host')).exclude(room=0)
+                queryset = queryset.filter(host=query.get('host'))
             elif 'id_ride' in query.keys():
-                queryset = queryset.filter(id_ride=query.get('id_ride'), is_active=True).exclude(room=0)
+                queryset = queryset.filter(id_ride=query.get('id_ride'))
             else :
                 queryset = queryset.filter(id_ride = IntermediateStop.objects.get(place=query.get('stop')).ride_id, is_active=True).exclude(room=0)
 
-            queryset = queryset.filter(date__range=(day_now,day_next))
-            queryset = queryset.exclude(date=day_now,hour__range=("00:00",time_now))
+            if not 'host' in query.keys():
+                queryset = queryset.filter(date__range=(day_now,day_next))
+                queryset = queryset.exclude(date=day_now,hour__range=("00:00",time_now))
             serializer = RideFilterSerializer(queryset,many=True)
         else:
             queryset = queryset.filter(is_active=True).exclude(room=0)
